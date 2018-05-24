@@ -1,0 +1,4 @@
+/* pages/diary_pre_create/diary_pre_create.wxss */
+.content{
+    margin: 20rpx
+}

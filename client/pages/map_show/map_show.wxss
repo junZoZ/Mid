@@ -1,0 +1,50 @@
+.content{
+  display: flex;
+  flex-direction: column;
+}
+.author{
+  margin: 20rpx;
+  height: 60rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.avatar-view{
+  width: 60rpx;
+  height: 60rpx;
+}
+.avatar-image {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 60rpx;
+}
+.nickname-view{
+  margin-left: 20rpx ;
+}
+.nickname{
+  font-size: 28rpx;
+}
+.vote-view{
+  position: absolute;
+  right: 20rpx;
+  height: 60rpx;
+}
+.vote-image{
+  margin-top: 10rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.thought-image{
+  width: 750rpx;
+}
+
+.thought-content{
+  margin: 40rpx 20rpx 20rpx 20rpx;
+}
+
+.information{
+  margin: 20rpx;
+  color: #555555;
+  font-size: 28rpx;
+}

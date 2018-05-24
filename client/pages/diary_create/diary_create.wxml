@@ -1,0 +1,87 @@
+<!--pages/diary_create/diary_create.wxml-->
+<view class="content">
+    <view wx:if="{{is_preview}}">
+
+        <view class="page-section">
+            <view class="rich-text-wrp">
+                <rich-text nodes="{{nodes}}"></rich-text>
+            </view>
+            <view style="height:200rpx"/>
+        </view>
+
+        <view>
+            <button type="default" size="default" bindtap="goback" style="position:fixed;width:350rpx;left:20rpx;bottom:0rpx"> 返回 </button>
+            <button type="primary" size="default" bindtap="createDiary" style="position:fixed;width:350rpx;right:20rpx;bottom:0rpx"> 完成 </button>
+        </view>
+
+        <view class="button-area">
+            <image
+                src='/image/diary_music.png'
+                mode="aspectFit"
+                bindtap="selectMusic"
+                class="button-music"
+            ></image>
+        </view>
+        
+    </view>
+
+    <view wx:else>
+
+        <scroll-view class="scroll-view_H" scroll-y style="width: 100%">
+            <view wx:for="{{viewList}}" wx:key="this">
+                <view style="border:3rpx solid #888888;">
+                    <view class="edit_area" style="text-align: right;">
+                        <button type="default" size="mini" style="background:#576B95" bindtap="moveup" data-index="{{index}}">上移</button>
+                        <button type="default" size="mini" style="background:#576B95" bindtap="movedown" data-index="{{index}}">下移</button>
+                        <button type="warn" size="mini" bindtap="remove" data-index="{{index}}">删除</button>
+                    </view>
+                    <view wx:if="{{item.is_photo}}" class="scroll-view-item">
+                        <image
+                            src="{{item.value}}"
+                            mode="aspectFit"
+                        ></image>
+                    </view>
+                    <view wx:else>
+                        <text>{{item.value}}</text>   
+                    </view>
+                </view>
+                <view style="height:15rpx"/>
+            </view>
+        
+        </scroll-view>
+
+        <view class="btn-area" style="flex-direction:row;">
+            <button type="primary" size="mini" disabled="{{disabled_photo}}" bindtap="uploadPhoto"> 添加图片 </button>
+            <button type="primary" size="mini" disabled="{{disabled_text}}" bindtap="showInsertText"> 添加文字 </button>
+            <button type="primary" size="mini" disabled="{{disabled_text}}" bindtap="showInsertText"> 添加标题 </button>
+        </view>
+
+        <view wx:if="{{is_text}}" class="insertText-area">
+            <form bindsubmit="insertText" class="insertText-area">
+                <textarea placeholder="在这里输入你想说的话，这是文本" focus="{{focus}}" name="textarea"/>
+                <button type="primary" form-type="submit"> 确定 </button>
+            </form>
+        </view>
+        <view>
+            <view style="height:200px"></view>
+        </view>
+        
+        <view class="btn-area">
+            <button type="primary" size="default" bindtap="goFinish" style="position:fixed;width:710rpx;bottom:0rpx"> 预览 </button>
+        </view>
+        
+        <view wx:if="{{is_finish}}" class="title-area" style="position:absolute;Left:50rpx;top:30%;width:600rpx;height:300rpx;background:#f6f6f6;padding:25rpx;border-radius:15px">
+            <text>游记标题：</text>
+            <view style="height:200rpx">
+                <input class="weui-input" bindinput="setTitle" value="{{diary_title}}" auto-focus placeholder="在这里设置游记的标题"/>
+            </view>
+            <button type="default" size="mini" bindtap="cancelFinish"> 返回 </button>
+            <button type="primary" size="mini" bindtap="primaryDiary"> 完成 </button>
+        </view>
+    </view>
+</view>
+
+
+
+
+

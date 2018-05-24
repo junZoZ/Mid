@@ -1,0 +1,72 @@
+<!--pages/diary_view/diary_view.wxml-->
+
+<view class="diary_container">
+    <view class="rich-text-wrp">
+        <rich-text nodes="{{nodes}}"></rich-text>
+    </view>
+</view>
+
+<view class="separation" style="height:20rpx;width:750rpx;background:#EEEEEE"/>
+
+<view class="diary_container">
+    <view class="comment_title">
+        <text>最新评论</text>   
+    </view>
+
+    <scroll-view class="scroll-view_H" scroll-y style="width: 100%">
+        <view wx:for="{{commentList}}" wx:key="this">
+            <view style="padding-top:10rpx;padding-bottom:10rpx;display:flex;flex-direction:row;">
+                <view class="avatar-item">
+                    <image
+                        src="{{item.user_info.avatarUrl}}"
+                        mode="aspectFit"
+                        style="height:80rpx;width:80rpx;border-radius:40rpx;"
+                    ></image>
+                </view>
+                <view style="display:flex;width:500rpx;flex-direction:column;">
+                    <text style="font-size:11pt">{{item.user_info.nickName}}</text>
+                    <text bindtap="childrenComment" data-item="{{item}}" style="font-size:13pt">{{item.comment_content}}</text>   
+                </view>
+                <view style="text-align:right;">
+                    <text style="font-size:11pt">{{item.comment_time}}</text>
+                </view>
+            </view>
+            <view wx:if="{{item.comment_father_id >= 0}}" style="border:3rpx solid #EEEEEE;padding:10rpx;margin-left:80rpx;margin-bottom:20rpx">
+                <text style="font-size:11pt;color:#576B95">@{{commentList[item.comment_father_id].user_info.nickName}}: </text>
+                <text style="font-size:11pt">{{commentList[item.comment_father_id].comment_content}}</text>
+            </view>
+            <view class='cut-off-line'/>
+        </view>
+    
+    </scroll-view>
+
+    <view class="insertText-area" style="margin-top:20rpx;padding:20rpx;border:3rpx solid #EEEEEE;">
+        <form bindsubmit="insertText" class="insertText-area">
+            <textarea placeholder="在这里输入你想说的话" value="{{comment_content}}"focus="{{focus}}" name="textarea"/>
+            <button type="primary" size="mini" style="text-align:right;" form-type="submit"> 评论 </button>
+        </form>
+    </view>
+
+    <view class="button-area">
+        <image
+            src='{{is_voted?"/image/heart1.png":"/image/heart0.png"}}'
+            mode="aspectFill"
+            bindtap="voteDiary"
+            class="button-vote"
+        ></image>
+    </view>
+
+    <view wx:if="{{is_childen_comment}}" class="comment-area" style="position:fixed;Left:50rpx;top:30%;width:600rpx;height:300rpx;background:#f6f6f6;padding:25rpx;border-radius:15px">
+        <text>发表评论</text>
+        <text style="font-size:11pt;color:#576B95">@{{fatherComment.user_info.nickName}}: </text>
+        <text style="font-size:11pt">{{fatherComment.comment_content}}</text>
+        <view style="height:200rpx">
+            <input class="weui-input" bindinput="setComment" auto-focus placeholder="写评论.."/>
+        </view>
+        <button type="default" size="mini" bindtap="cancelComment"> 取消 </button>
+        <button type="primary" size="mini" bindtap="sendChildrenComment"> 评论 </button>
+    </view>
+</view>
+
+
+

@@ -1,0 +1,73 @@
+<view class='content'>
+  <!--1.顶部选择栏<view class='top-selector' style='height:40px;'>  </view>-->
+  <!--2.消息滚动区域-->
+  <view class='message-view' style='height: {{windowHeight}}px'>
+    <!-- 2.1.多条消息容器 竖向排列-->
+    <view class="message" wx:for="{{message}}" wx:for-item="item" wx:key="massageId">
+      <!-- 2.1.1 单条消息容器 横向排列-->
+      <view class='message-item' >
+        <!-- 2.1.1.1 头像-->
+        <view class='message-left'>
+          <image class='avatar-image' src="{{user_info[item.open_id].avatarUrl}}" mode="aspectFill" />
+        </view>
+        <!-- 2.1.1.2 昵称、内容、评论 竖向排列-->
+        <view class='message-right'>
+          
+          <view class='message-nickname'>
+            <text style='word-break:break-all; font-size: 28rpx;'>{{user_info[item.open_id].nickName}}</text>
+          </view>
+          
+          <view class='message-content' style='margin-top:20rpx;'>
+            <text style='word-break:break-all;font-size:36rpx;'>{{item.m_content}}</text>
+          </view>
+          
+          <view class='message-info' style='font-size:28rpx; color:#AAAAAA;margin-top:20rpx;margin-bottom:20rpx;'>
+            <text style='text-align: left;'>{{item.m_datetime}}</text>
+            <text style='text-align: right;'> · {{item.m_distant}}</text>
+          </view>
+
+          <view class='message-reply' wx:for='{{reply[item.m_id]}}' wx:for-item='inner'>
+            <view class='message-reply-item'>
+              <text style='color:#66DD00;word-break:break-all; font-size: 28rpx;'>{{user_info[inner.open_id].nickName}}</text>
+              <text style='word-break:break-all; font-size: 28rpx;'> : {{inner.mr_content}}</text>
+            </view>
+          </view>
+          
+        </view>
+
+      </view>
+      <view class='cut-off-line'></view>
+    </view>
+    <view style='height:100px;'>
+    </view>
+
+  </view>
+
+  <!--2.底部编辑消息输入栏-->
+  <view class='editor-view' style='height:{{inputHeight+30}}px;'>
+    <!--使用表单操作更加方便-->
+    <form bindsubmit="formSubmit">
+      <view class='textarea-wrp' style='height:{{inputHeight}}px;'>
+        <!--textarea最坑的一点就是value不会由用户输入改变，也就是说没有数据绑定，这个value属性形同虚设。 -->
+        <textarea 
+          name='textarea'
+          value='{{textvalue}}'
+          cursor-spacing='20px' 
+          adjust-position='{{true}}' 
+          auto-focus='{{true}}'
+          bindfocus='bindFocus' 
+          bindinput='bindInput' 
+          bindlinechange='bindLineChange'  
+          fixed='{{true}}' 
+          show-confirm-bar='{{false}}' 
+          style='height:{{inputHeight}}px; width:560rpx;' 
+          placeholder="小喇叭:向周围的人喊话">
+        </textarea>
+      </view>
+      <view>
+        <button class='button-wrp' formType="submit" disabled="{{inputvalue ? false:true}}">发送</button>
+      </view>
+    </form>
+
+  </view>
+</view>

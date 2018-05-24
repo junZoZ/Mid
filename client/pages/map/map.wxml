@@ -1,0 +1,24 @@
+<!-- map.wxml -->
+<view>
+
+  <map id="map" 
+  longitude="{{longitude}}" 
+  latitude="{{latitude}}" 
+  scale="{{scale}}" 
+  controls="{{controls}}" 
+  bindcontroltap="controltap" 
+  markers="{{markers}}" 
+  bindmarkertap="markertap" 
+  bindcallouttap="callouttap"
+  polyline="{{polyline}}" 
+  bindregionchange="regionchange" 
+  show-location='true' 
+  style="width: 100%; height:{{windowHeight}}px;">
+  </map>
+
+  
+  <cover-image class='button' bindtap="buttontap" src='/image/button_publish3.png'/>
+
+  <cover-image class='location' bindtap="locationtap" src='/image/location.png'/>
+  
+</view>

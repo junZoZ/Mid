@@ -1,0 +1,20 @@
+.button{
+  height: 100rpx;
+  width: 250rpx;
+  position:absolute; 
+  bottom:0rpx;
+  margin-bottom:50rpx;
+  right: 250rpx;
+
+  color:#ffffff; 
+  font-size:36rpx;
+}
+
+.location{
+  position:absolute; 
+  left:0rpx;
+  bottom:0rpx;
+  margin: 50rpx;
+  width:100rpx;
+  height:100rpx;
+}

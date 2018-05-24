@@ -1,0 +1,58 @@
+<view class='content'>
+  <view class='author'>
+    <view class='avatar-view'>
+      <image class='avatar-image' src='{{params.avatarUrl}}'></image>
+    </view>
+    <view class='nickname-view'>
+      <text class='nickname'>{{params.nickName}}</text>
+    </view>
+    <view style='padding:2rpx 10rpx 2rpx 10rpx;margin-left:20rpx;font-size:28rpx;color:#555555;background:#ffffff; border:5rpx solid #555555; border-radius:10rpx;'>
+      <text>{{params.thought_type}}</text>
+    </view>
+    <view class='vote-view' bindtap='votetap' style='display:flex; flex-direction:row; align-items:center;'>
+      <view>
+        <text style='font-size:28rpx; color:#555555'>{{params.thought_upvote}}</text>
+      </view>
+       <view style='margin-left:20rpx'>
+        <image class='vote-image' src='/image/heart{{is_like?1:0}}.png' ></image>
+      </view>
+    </view>
+  </view>
+
+  <view class='thought-image' wx:if='{{params.thought_imageurl}}'>
+   <image src='{{params.thought_imageurl}}' lazy-lazy-load='true'	mode='widthFix' style='width:100%' ></image>
+  </view>
+
+  <view class='thought-content'>
+    <text>{{params.thought_content}}</text>
+  </view>
+
+  <view bindtap='poitap' class='poi' wx:if='{{params.thought_location}}' style='display:flex;flex-direction:row;align-items:center;margin-top:20rpx'>
+    <view>
+      <image src='/image/poi.png' style='margin-left:20rpx; width:40rpx; height:40rpx'></image>
+    </view>
+    <view>
+      <text style='font-size:28rpx;color:#555555;height:40rpx; '>{{params.thought_location}}</text>
+    </view>
+  </view>
+
+  
+  <view class='information'>
+     <text>{{params.thought_datetime}}</text>
+  </view>
+ 
+  <view style='margin:60rpx 20rpx 20rpx 20rpx;'>附近的足迹</view>
+  
+  <scroll-view scroll-x="true" style=" white-space: nowrap; display: flex" >
+    <!--  display: inline-block-->
+    <block wx:for='{{around_list}}' wx:key='thought_id'>
+      <view id='{{index}}' bindtap='itemtap' style=" margin:20rpx ; width: 300rpx; height: 400rpx; display: inline-block" >
+        <image mode='aspectFill' style='width:300rpx; height:300rpx; ' src='{{item.thought_imageurl}}'></image>
+        <view>
+          <text style='font-size:28rpx'> {{item.thought_brief}} </text>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+
+</view>

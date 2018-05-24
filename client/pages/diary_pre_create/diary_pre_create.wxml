@@ -1,0 +1,20 @@
+<!--pages/diary_pre_create/diary_pre_create.wxml-->
+<view class="diary_container">
+    <view class="section">
+        <picker mode="date" value="{{begindate}}" start="2018-01-01" end="2020-12-31" bindchange="beginDateChange">
+            <view class="picker">
+            开始时间: {{begindate}}
+            </view>
+        </picker>
+    </view>
+    <view class="section">
+        <picker mode="date" value="{{enddate}}" start="2018-01-01" end="2020-12-31" bindchange="endDateChange">
+            <view class="picker">
+            结束时间: {{enddate}}
+            </view>
+        </picker>
+    </view>
+    <view class="btn-area" style="flex-direction:row;">
+        <button type="primary" size="default" bindtap="finishTimePicker"> 生成 </button>
+    </view>
+</view>

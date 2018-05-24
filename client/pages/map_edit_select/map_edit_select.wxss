@@ -1,0 +1,36 @@
+.cut-off-line{
+  margin:20rpx;
+  width:710rpx; 
+  height:2rpx;
+  background:#EEEEEE;
+}
+
+.top-selector{
+  background: #FFFFFF;
+  width:100%;
+  border-bottom: 2px solid #555555;
+}
+
+.message-view{
+  top: 0 ;
+}
+
+.message {
+  display:flex;
+  flex-direction:column;
+}
+
+.message-item{
+  margin: 20rpx;
+  display:flex; 
+  flex-direction:column; 
+}
+
+.poi-title{
+
+}
+
+.poi-address{
+  font-size: 28rpx;
+  color: #AAAAAA;
+}

@@ -1,0 +1,41 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/map/map",
+        "pages/massage/massage",
+        "pages/diary/diary",
+        "pages/logs/logs",
+        "pages/map_edit/map_edit",
+        "pages/diary_create/diary_create",
+        "pages/diary_view/diary_view",
+        "pages/map_show/map_show",
+        "pages/map_edit_select/map_edit_select",
+        "pages/diary_pre_create/diary_pre_create"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "云游四方自由行",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "list": [
+            {
+                "pagePath": "pages/map/map",
+                "text": "云  想"
+            },
+            {
+                "pagePath": "pages/massage/massage",
+                "text": "云  厅"
+            },
+            {
+                "pagePath": "pages/diary/diary",
+                "text": "云游记"
+            }
+        ],
+        "position": "top",
+        "color": "#AAAAAA",
+        "selectedColor": "#555555",
+        "backgroundColor": "#ffffff"
+    }
+}

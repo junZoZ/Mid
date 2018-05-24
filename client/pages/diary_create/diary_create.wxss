@@ -1,0 +1,14 @@
+/* pages/diary_create/diary_create.wxss */
+.content{
+    margin: 20rpx
+}
+.button-music{
+  height: 80rpx;
+  width: 80rpx;
+  position:fixed; 
+  bottom: 100rpx;
+  right: 50rpx;
+
+  color:#ffffff; 
+  font-size:36rpx;
+}

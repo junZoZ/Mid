@@ -1,0 +1,31 @@
+<view class='content'>
+  <view class='message-view' style='height: {{windowHeight}}px'>
+    <view style='margin:20rpx;height:100rpx;display:flex;flex-direction:row;align-items:center'>
+      <view style='width:650rpx'>
+        <input value='{{inputvalue}}' placeholder='输入搜索' confirm-type='search' bindconfirm='bindInputConfirm' bindinput='bindInput'></input>
+      </view>
+      <view>
+        <icon wx:if='{{isinput}}' bindtap='cleartap' type='clear'></icon>
+      </view>
+    </view>
+    <view style='margin:20rpx'>
+    <text>附近的{{namemap[params['keyword']]}}:</text>
+    </view>
+    <!-- 2.1.多条消息容器 竖向排列-->
+    <view class="message" wx:for="{{poi_list}}" wx:for-item="item" wx:key="id">
+      <!-- 2.1.1 单条消息容器 横向排列-->
+      <view id='{{index}}' class='message-item' bindtap='itemtap'>
+        <view class='poi-title'>
+          {{item.name}}
+        </view>
+        <view class='poi-address'>
+          {{item.address}}
+        </view>
+      </view>
+      <view class='cut-off-line'></view>
+    </view>
+    <view style='height:100px;'>
+    </view>
+
+  </view>
+</view>

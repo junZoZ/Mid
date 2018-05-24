@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IconProject Version="2.0" Name="Shape18" PUAEnable="true" BasicLatinEnable="false">
+  <Icon Name="Shape18" HasCharacterMap="false" IsDirty="false" GroupName="Shapes" ExportCommand="MetroGraphicsPackage.IconCommand" Location="Shapes" FontName="Shape18" IsDuplicate="false" ASCIIValue="" AlphaNumericValue="" FiValue="" Data="M16,0C24.8,0 32,7.2 32,16 32,24.8 24.8,32.000001 16,32.000001 7.1999998,32.000001 0,24.8 0,16 0,7.2 7.1999998,0 16,0z" DataFont="M2.5,502.5C2.5,227.5 227.5,2.5 502.5,2.5 777.5,2.5 1002.5,227.5 1002.5,502.5 1002.5,777.5 777.5,1002.5 502.5,1002.5 227.5,1002.5 2.5,777.5 2.5,502.5z">
+    <Settings MainWidth="256" MainHeight="256" FlipX="1" FlipY="1" CustomSize="256" IconShape="None" BackgroundBrush="#FF000000" ContentWidth="138" ContentHeight="138" Angle="0" IsRect="false" SizeIndex="6" CustomWidth="256" CustomHeight="256" IsLinked="false" Padding="59" MaximumPadding="79" SldierValueChanged="MetroGraphicsPackage.IconCommand" IconBrush="#FFFFFFFF" FontFamily="Webdings" Character="&gt;" FlipCommand="MetroGraphicsPackage.IconCommand" IsBackgroundVisible="true" />
+  </Icon>
+  <PreferenceInfo ClassPrefix="sf-icon-" ClassPostfix="" CSSSelector="Attribute" CSSClassName="sf-icon" />
+</IconProject>

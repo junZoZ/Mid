@@ -1,0 +1,20 @@
+<!--start.wxml-->
+<view class="container">
+  <block>
+    <image class="title" src="/image/title.png"></image>
+    <view class="content">
+      <view class="hd" style="transform:rotateZ({{angle}}deg);">
+        <image class="logo" src="{{logged?userInfo.avatarUrl:'/image/appicon2.png'}}"></image>
+        <image class="wave" src="/image/wave.png" mode="aspectFill"></image>
+        <image class="wave wave-bg" src="/image/wave.png" mode="aspectFill"></image>
+      </view>
+      <view class="bd">
+        <image class="smalltitle" src=""></image>
+        <button class="confirm-btn" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+        {{logged?"进入旅程":"登录"}}
+        </button>
+        <text class="copyright">©2018 云游僧团队版权所有</text>
+      </view>
+    </view>
+  </block>
+</view>

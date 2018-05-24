@@ -1,0 +1,16 @@
+/* pages/diary_view/diary_view.wxss */
+.cut-off-line{
+  width:710rpx; 
+  height:2rpx;
+  background:#EEEEEE;
+}
+.button-vote{
+  height: 60rpx;
+  width: 60rpx;
+  position:fixed; 
+  top: 50rpx;
+  right: 50rpx;
+
+  color:#ffffff; 
+  font-size:36rpx;
+}

@@ -1,0 +1,19 @@
+/* pages/diary/diary.wxss */
+.content{
+    margin: 20rpx
+}
+.cut-off-line{
+  width:710rpx; 
+  height:2rpx;
+  background:#EEEEEE;
+}
+.button-add{
+  height: 100rpx;
+  width: 100rpx;
+  position:fixed; 
+  bottom: 50rpx;
+  right: 50rpx;
+
+  color:#ffffff; 
+  font-size:36rpx;
+}

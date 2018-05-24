@@ -1,0 +1,68 @@
+<!--pages/map_edit/map_edit.wxml-->
+<!--textarea.wxml-->
+<view class='content'>
+  <view class='text-editor'>
+    <textarea 
+    placeholder="✎云想衣裳花想容，此刻你想到了..." 
+    maxlength="140" 
+    auto-focus 
+    style='width:100%'
+    bindinput='bindInput'
+    bindblur='bindBlur'
+    bindconfirm='bindConfirm'
+    show-confirm-bar=''
+    value='{{textvalue}}'/>
+  </view>
+
+<!--
+  <view class='location-success' wx:if="{{is_success}}" >
+    <icon type='success' size="18"></icon>
+    <label style='font-size:15px'>当前坐标：{{position_string}}</label>
+  </view>
+  <view class='location-fail' wx:else >
+    <icon type='warn' size="18"></icon>
+    <label style='font-size:15px'>位置信息获取失败</label>
+  </view> 
+-->
+
+
+
+  <view class='image-editor' bindtap="imagetap">
+    <image 
+      mode="aspectFill"
+      src='{{image_url}}' 
+      style='width:100%;height:100%;  border-radius: 50rpx;'
+      />
+  </view>
+  
+  <view class='cut-off-line'></view>
+
+  <view class='type-editor'>
+      <view wx:for="{{radioItems}}" wx:key="name" >
+          <view id='{{index}}' class='type-item' bindtap='radioChange' style='opacity:{{item.checked ? 1:0.2}};'>
+              <view class='type-image'>
+                <image src='/image/{{item.name}}.png' style='height:100%;width:100%'></image>
+              </view>
+              <view class='type-text'>
+                <text style='font-size:15px'>{{item.value}}</text>
+              </view>
+          </view>
+      </view>
+  </view>
+
+  <view class='cut-off-line'></view>
+
+  <view class='location-editor' >
+    <view bindtap='selecttap' style='width:100%;'>
+      <text style='height:150rpx;backgroud:#EEEEEE;vertical-align:middle;'>{{thought_location?thought_location:'选择附近的位置'}}
+      </text>
+    </view>
+  </view>
+  
+  <view class='bottom-button'>
+    <!--<button  wx:if="{{!is_success}}" bindtap="locationtap" type="default" style=''>重新获取定位信息</button>-->
+    <button  bindtap="confirmtap" type="primary" style='background:#66DD00'>发布</button>
+  </view>
+  
+</view>
+

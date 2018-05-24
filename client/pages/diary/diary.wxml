@@ -1,0 +1,87 @@
+<!--pages/diary/diary.wxml-->
+<view class="diary_container">
+    <view class="diary_list">
+        <scroll-view class="scroll-view" scroll-x style="height:230rpx">
+            <view style="display:flex;width:710rpx;flex-direction:row;">
+                <view wx:for="{{hotDiaryList}}" wx:key="this" class="scroll-view-item">
+                    <view class="recommend-item" style="width:300rpx;padding-right:20rpx">
+                        <image
+                            src='{{item.diary_imageurl=="undefined"?defaultImg:item.diary_imageurl}}'
+                            mode="aspectFill"
+                            bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                            style="width:300rpx;height:170rpx"
+                        ></image>
+                        <text style="font-size:11pt;"
+                            bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                        >{{item.diary_title}}</text>   
+                    </view>
+                </view>
+            </view>
+            
+        </scroll-view>
+
+        <scroll-view class="scroll-view_H" scroll-y style="width: 710rpx">
+            <view wx:for="{{diaryList}}" wx:key="this" class="scroll-view-item">
+                <view class="image-item">
+                    <image
+                        src='{{item.diary_imageurl=="undefined"?defaultImg:item.diary_imageurl}}'
+                        mode="aspectFill"
+                        bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                        style="width:600rpx;height:337rpx;padding-left:55rpx"
+                    ></image>
+                </view>
+                <view class="title-item">
+                    <text style="font-size:14pt"
+                        bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                    >{{item.diary_title}}</text>   
+                </view>
+                <view class="detail-item">
+                    <text style="font-size:11pt"
+                        bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                    >{{item.diary_abstract}}</text>   
+                </view>
+                <view class="diary_num_item" style="text-align:right;;flex-direction:row;">
+                    <image
+                        src='/image/diary_browse.png'
+                        mode="aspectFit"
+                        bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                        style="width:50rpx;height:30rpx"
+                    ></image>
+                    <text style="font-size:11pt;"
+                            bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                        >{{item.diary_browse_num}}</text>
+                    <image
+                        src='/image/diary_vote.png'
+                        mode="aspectFit"
+                        bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                        style="width:50rpx;height:30rpx"
+                    ></image>
+                    <text style="font-size:11pt;"
+                            bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                        >{{item.diary_vote_num}}</text>
+                    <image
+                        src='/image/diary_comment.png'
+                        mode="aspectFit"
+                        bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                        style="width:50rpx;height:30rpx"
+                    ></image>
+                    <text style="font-size:11pt;"
+                            bindtap="viewDiary" data-diary_id="{{item.diary_id}}"
+                        >{{item.diary_comment_num}}</text>
+                </view>
+                <view class='cut-off-line'/>
+            </view>
+        </scroll-view>
+
+        <view class="button-area">
+            <image
+                src='/image/createDiary.png'
+                mode="aspectFill"
+                bindtap="createDiary"
+                class="button-add"
+            ></image>
+        </view>
+    </view>
+
+</view>
+
