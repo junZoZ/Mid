@@ -21,7 +21,7 @@ const CONF = {
         port: 3306,
         user: 'root',
         db: 'mytravel',
-        pass: 'wxa96b67a69b76c3b4',
+        pass: 'wxf22427ee41ffdbfa',
         char: 'utf8mb4'
     },
 
