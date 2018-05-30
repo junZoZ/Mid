@@ -140,7 +140,7 @@ Page({
         url: config.service.uploadUrl,
         filePath: that.data.image_url,
         name: 'file',
-
+        
         success: function (res) {
           //util.showSuccess('上传图片成功')
           //2.进一步上传其他信息

@@ -26,6 +26,7 @@ module.exports = async ctx => {
       'm_latitude',
       'm_longitude',
       'm_datetime',
+      'm_voiceUrl',
       'open_id'
       //'user_info
       )
@@ -45,6 +46,7 @@ module.exports = async ctx => {
       'm_latitude',
       'm_longitude',
       'm_datetime',
+      'm_voiceUrl',
       'open_id'
       )
       .from("message")
@@ -63,6 +65,7 @@ module.exports = async ctx => {
       'm_latitude',
       'm_longitude',
       'm_datetime',
+      'm_voiceUrl',
       'open_id'
       )
       .from("message")

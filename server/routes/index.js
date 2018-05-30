@@ -52,6 +52,8 @@ router.get('/getmessage', controllers.getmessage)
 
 router.get('/addmessage', controllers.addmessage)
 
+router.get('/addvoiceMessage', controllers.addvoiceMessage)
+
 router.get('/addDiaryNodeList', controllers.addDiaryNodeList)
 
 router.get('/getDiaryList', controllers.getDiaryList)

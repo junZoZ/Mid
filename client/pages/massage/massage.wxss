@@ -51,6 +51,13 @@ message-content{
   
 }
 
+.message-voice{
+  width:300rpx;height:100rpx;
+}
+.message-voiceFont{
+  color: #000000;
+  font-size: 30rpx;
+}
 .message-reply{
   background:#F0F0F0;
   display:flex; 
@@ -63,17 +70,28 @@ message-content{
 }
 
 .editor-view{
-  background: #555555;
+  background: #B8B8B8;
   position:fixed;
   bottom:0rpx;
   width:100%;
+  margin-left: 40px;
   border-radius: 20rpx 20rpx 0 0;
 }
 
+.speak-view{
+  background: #F2F2F2;
+  position:fixed;
+  bottom:0rpx;
+  width:88%;
+  margin-left: 40px;
+  border-radius: 20rpx 20rpx 0 0;
+  text-align: center;
+}
+
 .textarea-wrp{
-  background:#555555; 
+  background: #B8B8B8; 
   width:560rpx;
-  margin-left: 20px;
+  margin-left: 50px;
   color: #ffffff;
   position:fixed;
   bottom:30rpx;
@@ -104,3 +122,23 @@ button[disabled]{
   font-size: 30rpx;
   opacity: 0.6;
 }
+
+.text-video-img{
+  border-radius: 10rpx;
+  height: 105rpx; width:95rpx;
+  background:#ffffff;
+  position:fixed;
+  bottom:0rpx;
+  left: 0rpx;
+  text-align: center;
+}
+
+.speaker{ 
+    position: fixed; 
+    left: 50%;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 30%;
+    height: 20%;
+} 

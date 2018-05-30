@@ -18,7 +18,13 @@
           </view>
           
           <view class='message-content' style='margin-top:20rpx;'>
-            <text style='word-break:break-all;font-size:36rpx;'>{{item.m_content}}</text>
+            <view wx:if="{{!item.m_voiceUrl}}">  
+              <text style='word-break:break-all;font-size:36rpx;'>{{item.m_content}}</text>
+            </view>
+            <view wx:else style='word-break:break-all;font-size:36rpx;'>  
+              <image class='message-voice' src="{{voiceImage}}" data-key="{{item.m_voiceUrl}}" bindtap="Sound"  ></image>
+               <text class='message-voiceFont'>(时长:{{voiceTime}}")</text>
+            </view>
           </view>
           
           <view class='message-info' style='font-size:28rpx; color:#AAAAAA;margin-top:20rpx;margin-bottom:20rpx;'>
@@ -43,8 +49,12 @@
 
   </view>
 
-  <!--2.底部编辑消息输入栏-->
-  <view class='editor-view' style='height:{{inputHeight+30}}px;'>
+  <!--2.底部语音消息输入栏-->
+ <button class='speak-view' hidden="{{!keyboard}}" bindtouchstart="touchdown" bindtouchend="touchup">按住     说话  </button>
+ <image class="text-video-img" src="/image/keyboard.png" hidden="{{!keyboard}}" bindtap="switchInputType"></image>
+
+ <!--2.底部编辑消息输入栏-->
+  <view class='editor-view'  hidden="{{keyboard}}" style='height:{{inputHeight+30}}px;'>
     <!--使用表单操作更加方便-->
     <form bindsubmit="formSubmit">
       <view class='textarea-wrp' style='height:{{inputHeight}}px;'>
@@ -65,9 +75,11 @@
         </textarea>
       </view>
       <view>
-        <button class='button-wrp' formType="submit" disabled="{{inputvalue ? false:true}}">发送</button>
+    <button class='button-wrp'  hidden="{{keyboard}}" formType="submit" disabled="{{inputvalue ? false:true}}">发送</button>
+         <image class="text-video-img" src="/image/speak.png" hidden="{{keyboard}}" bindtap="switchInputType"></image>
       </view>
     </form>
-
   </view>
 </view>
+
+<image class="speaker" hidden="{{!isSpeaking}}" src="{{speakerUrl}}"></image>

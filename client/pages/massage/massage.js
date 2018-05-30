@@ -6,6 +6,18 @@
 var config = require('../../config')
 const app = getApp()
 var Distance =  require('../../utils/calcDist.js')
+const mp3Recorder = wx.getRecorderManager()   
+const mp3RecoderOptions = {
+  duration: 10000,
+  sampleRate: 44100,
+  numberOfChannels: 1,
+  encodeBitRate: 192000,
+  format: 'mp3',
+  frameSize: 50
+}
+
+//播放音频
+const myaudio = wx.createInnerAudioContext(); 
 // pages/chat/chat.js
 Page({
 
@@ -17,7 +29,7 @@ Page({
     message:{},
     reply:{},
     user_info:{},
-    
+    voiceImage:"/image/voice.png",
     //距离 km
     distance:5,
 
@@ -45,10 +57,90 @@ Page({
     inputvalue:"",
     textvalue:"",
 
-    isready:false
+    isready:false,
 
+    //语音相关
+    keyboard: false,
+    isSpeaking: false,
+    speakerUrl: '/image/speaker0.png',
+    speakerUrlPrefix: '/image/speaker',
+    speakerUrlSuffix: '.png',
+  },
+  //转换形态
+  switchInputType: function () {
+    this.setData({
+      keyboard: !(this.data.keyboard),
+    })
+  },
+  //语音放下和起来
+  touchdown: function () {
+    console.log("mp3Recorder.start with" + mp3RecoderOptions)
+    var _this = this;
+    this.speaking();
+    this.setData({
+      isSpeaking: true
+    })
+    mp3Recorder.start(mp3RecoderOptions);
+  }, 
+  touchup: function () {
+    console.log("mp3Recorder.stop")
+    this.setData({
+      isSpeaking: false,
+      speakerUrl: '/image/speaker0.png',
+    })
+    mp3Recorder.stop();
+  },
+  // 麦克风帧动画 
+  speaking: function () {
+    //话筒帧动画 
+    var that=this;
+    var i = 0;
+    that.speakerInterval = setInterval(function () {
+      i++;
+      i = i % 7;
+      that.setData({
+        speakerUrl: that.data.speakerUrlPrefix + i + that.data.speakerUrlSuffix,
+      });
+     // console.log("[Console log]:Speaker image changing...");
+    }, 500);
   },
 
+  //播放录音
+  Sound: function (e) {
+    myaudio.stop(); 
+    var filePath = e.currentTarget.dataset.key; 
+    console.log(filePath)
+    wx.downloadFile({
+      url: filePath, 
+      success: function (res) {
+        console.log(res.tempFilePath)
+        myaudio.src = res.tempFilePath
+        myaudio.play(); 
+        console.log('time1:' + myaudio.duration)
+        wx.showToast({
+          title: '播放结束',
+          icon: 'success',
+          duration: myaudio.duration+500
+        })
+          },
+        })
+    //this.playing();
+    this.setData({
+        voiceImage: "/image/voice.png",})
+    },
+
+  playing: function () {
+    //播放帧动画 
+    var that = this;
+    var i = 0;
+    that.speakerInterval = setInterval(function () {
+      i++;
+      i = i % 3 + 1;
+      that.setData({
+        voiceImage: "/image/voice" + i + that.data.speakerUrlSuffix,
+      });
+    }, 500);
+  },
 
   //作用：发送消息
   formSubmit:function(e){
@@ -182,6 +274,59 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //onLoad中为录音接口注册两个回调函数，主要是onStop，拿到录音mp3文件的文件名（不用在意文件后辍是.dat还是.mp3，后辍不决定音频格式）
+    mp3Recorder.onStart(() => {
+      console.log('mp3Recorder.onStart()...')
+    })
+    mp3Recorder.onStop((res) => {
+      console.log('mp3Recorder.onStop() ' + res)
+      const { tempFilePath } = res
+    //  console.log('time:' + myaudio.src)
+      console.log('mp3Recorder.onStop() tempFilePath:' + tempFilePath)
+      // 1.先上传语音
+      wx.uploadFile({
+        url: config.service.uploadUrl,
+        filePath: tempFilePath,
+        name: 'file',
+        success: function (res) {
+          //util.showSuccess('上传语音成功')
+          //2.进一步上传其他信息
+          var res = JSON.parse(res.data)
+          myaudio.src = tempFilePath
+          var vt=myaudio.duration
+          console.log('time:' + vt)
+          wx.getLocation({
+            type: 'gcj02',
+            success: function (res1) {
+              console.log("ABCD " + res.data.imgUrl)
+              wx.request({
+                url: config.service.addvoiceMessageUrl,
+                data: {
+                  content: "voice",
+                  voiceUrl: res.data.imgUrl,
+                  latitude: res1.latitude,
+                  longitude: res1.longitude,
+                  open_id: app.globalData.userInfo.openId
+                },
+                header: { 'content-type': 'application/json' },
+                success: function (result) {
+                  console.log(result)
+                  that.setData({
+                    p_latitude: res1.latitude,
+                    p_longitude: res1.longitude,
+                    inputvalue: "",
+                    textvalue: "",
+                    inputHeight: 30
+                  })
+                  that.onPullDownRefresh();
+                } //request success
+              })  //request
+            }   //getlocation success
+          })    //getlocation
+        }    //upload success
+      })     //upload
+    })
+    //..................
     var that = this;
 
     wx.getLocation({
