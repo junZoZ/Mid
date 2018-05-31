@@ -2,6 +2,14 @@
 
 <view class="diary_container">
     <view class="rich-text-wrp">
+    <view class="button-area">
+        <image
+            src='{{is_voted?"/image/heart1.png":"/image/heart0.png"}}'
+            mode="aspectFill"
+            bindtap="voteDiary"
+            class="button-vote"
+        ></image>
+    </view>
         <rich-text nodes="{{nodes}}"></rich-text>
     </view>
 </view>
@@ -47,14 +55,7 @@
         </form>
     </view>
 
-    <view class="button-area">
-        <image
-            src='{{is_voted?"/image/heart1.png":"/image/heart0.png"}}'
-            mode="aspectFill"
-            bindtap="voteDiary"
-            class="button-vote"
-        ></image>
-    </view>
+    
 
     <view wx:if="{{is_childen_comment}}" class="comment-area" style="position:fixed;Left:50rpx;top:30%;width:600rpx;height:300rpx;background:#f6f6f6;padding:25rpx;border-radius:15px">
         <text>发表评论</text>
