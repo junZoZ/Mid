@@ -46,6 +46,9 @@ var config = {
         //新建游记接口
         addDiaryUrl: `${host}/weapp/addDiary`,
 
+        //更新语音效果
+        Dynamic: `${host}/weapp/Dynamic`,
+
         //新建游记内容接口
         addDiaryNodeListUrl: `${host}/weapp/addDiaryNodeList`,
 
@@ -54,6 +57,9 @@ var config = {
 
         //发送云厅消息接口
         addmessageUrl: `${host}/weapp/addmessage`,
+
+       //发送云厅语音消息接口
+        addvoiceMessageUrl: `${host}/weapp/addvoiceMessage`,
 
         //获取游记列表接口
         getDiaryListUrl: `${host}/weapp/getDiaryList`,

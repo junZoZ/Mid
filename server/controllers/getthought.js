@@ -16,6 +16,8 @@ module.exports = async ctx => {
   .select(
     'thought.thought_id', 
     'thought_content', 
+    'thought_positive',
+    'thought_sentiment', 
     'thought_imageurl', 
     'thought_latitude',
     'thought_longitude',

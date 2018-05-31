@@ -3,6 +3,8 @@ const { mysql } = require('../qcloud')
 module.exports = async ctx => {
   var thought = {
     thought_content: ctx.query.content,
+    thought_positive: ctx.query.positive,
+    thought_sentiment: ctx.query.sentiment,
     thought_latitude: ctx.query.latitude,
     thought_longitude: ctx.query.longitude,
     thought_imageurl: ctx.query.imageurl,

@@ -103,7 +103,7 @@ Page({
   //组装marker
   createMarker: function (item) {
     let marker = {
-      iconPath: "/image/"+item.thought_type+".png",
+      iconPath: "/image/"+item.thought_type+item.thought_sentiment+".png",
       id: item.thought_id || 0,
       latitude: item.thought_latitude,
       longitude: item.thought_longitude,

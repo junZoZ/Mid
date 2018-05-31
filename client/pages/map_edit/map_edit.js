@@ -21,6 +21,8 @@ Page({
     is_success:false,
     //及时保存用户输入的感想
     textvalue:"",
+    positive:"",
+    sentiment:"",
 
     //类型选择
     radioItems: [
@@ -132,146 +134,180 @@ Page({
     //console.log(app.globalData.userInfo)
 
     var that = this
-    
-    //若选择了图片
-    if (that.data.image_choosen){
-      // 1.先上传图片
-      wx.uploadFile({
-        url: config.service.uploadUrl,
-        filePath: that.data.image_url,
-        name: 'file',
 
-        success: function (res) {
-          //util.showSuccess('上传图片成功')
-          //2.进一步上传其他信息
-          var res = JSON.parse(res.data)
+    //先获取情感分析数据再上传
+    wx.request({
+      url: 'https://aip.baidubce.com/rpc/2.0/nlp/v1/sentiment_classify?charset=UTF-8&access_token=24.aefb38332020af2e1833f78e0f67366e.2592000.1530270870.282335-11308922',
+      data: {
+        'text': that.data.textvalue
+      },
+      header: {
+        'content-type': 'application/json', // 默认值
+      },
+      method: 'POST',
+      success: function (res) {
+        console.log('sentiment success------------')
+        console.log(res.data)
+        if (res.data.items != null) {
+          that.setData({
+            positive: res.data.items[0].positive_prob,
+            sentiment: res.data.items[0].sentiment
+          });
+          //若选择了图片
+          if (that.data.image_choosen) {
+            // 1.先上传图片
+            wx.uploadFile({
+              url: config.service.uploadUrl,
+              filePath: that.data.image_url,
+              name: 'file',
 
-          if(that.data.selected_poi){
-            wx.request({
-              url: config.service.addthoughtUrl,
-              data: {
-                content: that.data.textvalue,
-                latitude: that.data.p_latitude,
-                longitude: that.data.p_longitude,
-                type: that.data.thought_type,
-                location:that.data.thought_location,
-                imageurl:res.data.imgUrl,
-                open_id: app.globalData.userInfo.openId,
-                poi_id: that.data.selected_poi.id,
-                poi: that.data.selected_poi
-              },
-              header: { 'content-type': 'application/json' },
               success: function (res) {
-                console.log(res)
-                //清空暂存数据:内容及位置
-                wx.removeStorage({
-                  key: 'textvalue',
-                  success: function(res) {},
-                })
-                wx.removeStorage({
-                  key: 'selected_poi',
-                  success: function (res) { },
-                })
+                //util.showSuccess('上传图片成功')
+                //2.进一步上传其他信息
+                var res = JSON.parse(res.data)
+
+                if (that.data.selected_poi) {
+                  wx.request({
+                    url: config.service.addthoughtUrl,
+                    data: {
+                      content: that.data.textvalue,
+                      positive: that.data.positive,
+                      sentiment: that.data.sentiment,
+                      latitude: that.data.p_latitude,
+                      longitude: that.data.p_longitude,
+                      type: that.data.thought_type,
+                      location: that.data.thought_location,
+                      imageurl: res.data.imgUrl,
+                      open_id: app.globalData.userInfo.openId,
+                      poi_id: that.data.selected_poi.id,
+                      poi: that.data.selected_poi
+                    },
+                    header: { 'content-type': 'application/json' },
+                    success: function (res) {
+                      console.log(res)
+                      //清空暂存数据:内容及位置
+                      wx.removeStorage({
+                        key: 'textvalue',
+                        success: function (res) { },
+                      })
+                      wx.removeStorage({
+                        key: 'selected_poi',
+                        success: function (res) { },
+                      })
+                    }
+                  })
+                }
+                else {
+                  wx.request({
+                    url: config.service.addthoughtUrl,
+                    data: {
+                      content: that.data.textvalue,
+                      positive: that.data.positive,
+                      sentiment: that.data.sentiment,
+                      latitude: that.data.p_latitude,
+                      longitude: that.data.p_longitude,
+                      type: that.data.thought_type,
+                      location: that.data.thought_location,
+                      imageurl: res.data.imgUrl,
+                      open_id: app.globalData.userInfo.openId,
+                      //poi_id: null,
+                      //poi: null
+                    },
+                    header: { 'content-type': 'application/json' },
+                    success: function (res) {
+                      console.log(res)
+                      //清空暂存数据:内容及位置
+                      wx.removeStorage({
+                        key: 'textvalue',
+                        success: function (res) { },
+                      })
+                      wx.removeStorage({
+                        key: 'selected_poi',
+                        success: function (res) { },
+                      })
+                    }
+                  })
+                }
+              },
+
+              fail: function (e) {
+                util.showModel('上传图片失败')
               }
             })
           }
-          else{
-            wx.request({
-              url: config.service.addthoughtUrl,
-              data: {
-                content: that.data.textvalue,
-                latitude: that.data.p_latitude,
-                longitude: that.data.p_longitude,
-                type: that.data.thought_type,
-                location: that.data.thought_location,
-                imageurl: res.data.imgUrl,
-                open_id: app.globalData.userInfo.openId,
-                //poi_id: null,
-                //poi: null
-              },
-              header: { 'content-type': 'application/json' },
-              success: function (res) {
-                console.log(res)
-                //清空暂存数据:内容及位置
-                wx.removeStorage({
-                  key: 'textvalue',
-                  success: function (res) { },
-                })
-                wx.removeStorage({
-                  key: 'selected_poi',
-                  success: function (res) { },
-                })
-              }
-            })
+          else {
+            if (that.data.selected_poi) {
+              wx.request({
+                url: config.service.addthoughtUrl,
+                data: {
+                  content: that.data.textvalue,
+                  positive: that.data.positive,
+                  sentiment: that.data.sentiment,
+                  latitude: that.data.p_latitude,
+                  longitude: that.data.p_longitude,
+                  type: that.data.thought_type,
+                  location: that.data.thought_location,
+                  //imageurl: null,
+                  open_id: app.globalData.userInfo.openId,
+                  poi_id: that.data.selected_poi.id,
+                  poi: that.data.selected_poi
+                },
+                header: { 'content-type': 'application/json' },
+                success: function (res) {
+                  console.log(res)
+                  //清空暂存数据:内容及位置
+                  wx.removeStorage({
+                    key: 'textvalue',
+                    success: function (res) { },
+                  })
+                  wx.removeStorage({
+                    key: 'selected_poi',
+                    success: function (res) { },
+                  })
+                }
+              })
+            }
+            else {
+              wx.request({
+                url: config.service.addthoughtUrl,
+                data: {
+                  content: that.data.textvalue,
+                  positive: that.data.positive,
+                  sentiment: that.data.sentiment,
+                  latitude: that.data.p_latitude,
+                  longitude: that.data.p_longitude,
+                  type: that.data.thought_type,
+                  location: that.data.thought_location,
+                  //imageurl: null,
+                  open_id: app.globalData.userInfo.openId,
+                  //poi_id: null,
+                  //poi: null
+                },
+                header: { 'content-type': 'application/json' },
+                success: function (res) {
+                  console.log(res)
+                  //清空暂存数据:内容及位置
+                  wx.removeStorage({
+                    key: 'textvalue',
+                    success: function (res) { },
+                  })
+                  wx.removeStorage({
+                    key: 'selected_poi',
+                    success: function (res) { },
+                  })
+                }
+              })
+            }
           }
-        },
-
-        fail: function (e) {
-          util.showModel('上传图片失败')
+          wx.navigateBack({})
         }
-      })
-    }
-    else{
-      if (that.data.selected_poi){
-        wx.request({
-          url: config.service.addthoughtUrl,
-          data: {
-            content: that.data.textvalue,
-            latitude: that.data.p_latitude,
-            longitude: that.data.p_longitude,
-            type: that.data.thought_type,
-            location: that.data.thought_location,
-            //imageurl: null,
-            open_id: app.globalData.userInfo.openId,
-            poi_id: that.data.selected_poi.id,
-            poi: that.data.selected_poi
-          },
-          header: { 'content-type': 'application/json' },
-          success: function (res) {
-            console.log(res)
-            //清空暂存数据:内容及位置
-            wx.removeStorage({
-              key: 'textvalue',
-              success: function (res) { },
-            })
-            wx.removeStorage({
-              key: 'selected_poi',
-              success: function (res) { },
-            })
-          }
-        })
+      },
+      fail: function (res) {
+        console.log('sentiment fail------------')
+        util.showModel('上传失败请重试')
+        console.log(res.data)
       }
-      else{
-        wx.request({
-          url: config.service.addthoughtUrl,
-          data: {
-            content: that.data.textvalue,
-            latitude: that.data.p_latitude,
-            longitude: that.data.p_longitude,
-            type: that.data.thought_type,
-            location: that.data.thought_location,
-            //imageurl: null,
-            open_id: app.globalData.userInfo.openId,
-            //poi_id: null,
-            //poi: null
-          },
-          header: { 'content-type': 'application/json' },
-          success: function (res) {
-            console.log(res)
-            //清空暂存数据:内容及位置
-            wx.removeStorage({
-              key: 'textvalue',
-              success: function (res) { },
-            })
-            wx.removeStorage({
-              key: 'selected_poi',
-              success: function (res) { },
-            })
-          }
-        })
-      }
-    }
-    wx.navigateBack({})
+    })
   },
 
 

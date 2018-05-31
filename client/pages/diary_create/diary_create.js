@@ -46,7 +46,7 @@ Page({
                     name: 'file',
 
                     success: function (res) {
-                        util.showSuccess('上传图片成功')
+                       // util.showSuccess('上传图片成功')
                         console.log(res)
                         res = JSON.parse(res.data)
                         console.log(res)

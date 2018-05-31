@@ -52,6 +52,8 @@ router.get('/getmessage', controllers.getmessage)
 
 router.get('/addmessage', controllers.addmessage)
 
+router.get('/addvoiceMessage', controllers.addvoiceMessage)
+
 router.get('/addDiaryNodeList', controllers.addDiaryNodeList)
 
 router.get('/getDiaryList', controllers.getDiaryList)
@@ -65,6 +67,8 @@ router.get('/getthought_time', controllers.getthought_time)
 router.get('/updateDiary_browse', controllers.updateDiary_browse)
 
 router.get('/updateDiary_comment', controllers.updateDiary_comment)
+
+router.get('/Dynamic', controllers.Dynamic)
 
 router.get('/updateDiary_vote', controllers.updateDiary_vote)
 
