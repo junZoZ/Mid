@@ -6,6 +6,7 @@ module.exports = async ctx => {
     m_latitude: ctx.query.latitude,
     m_longitude: ctx.query.longitude,
     m_voiceUrl: ctx.query.voiceUrl,
+    m_voiceTime: ctx.query.voiceTime,
     open_id: ctx.query.open_id
   }
   // 增 

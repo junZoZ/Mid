@@ -21,9 +21,11 @@
             <view wx:if="{{!item.m_voiceUrl}}">  
               <text style='word-break:break-all;font-size:36rpx;'>{{item.m_content}}</text>
             </view>
-            <view wx:else style='word-break:break-all;font-size:36rpx;'>  
-              <image class='message-voice' src="{{voiceImage}}" data-key="{{item.m_voiceUrl}}" bindtap="Sound"  ></image>
-               <text class='message-voiceFont'>(时长:{{voiceTime}}")</text>
+            <view wx:else style='word-break:break-all;font-size:36rpx;'>   
+                 <image class='message-voice' src="{{voiceImage}}" hidden="{{item.dynamic != '1'}}" data-key="{{item.m_voiceUrl}}" data-time="{{item.m_voiceTime}}" bindtap="Sound"  ></image> 
+                 <image class='message-voice' src="{{voiceStaticImage}}"  hidden="{{item.dynamic=='1'}}" data-key="{{item.m_voiceUrl}}" data-time="{{item.m_voiceTime}}" bindtap="Sound"  ></image>
+
+               <text class='message-voiceFont'>(时长:{{item.m_voiceTime}}")</text>
             </view>
           </view>
           

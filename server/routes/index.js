@@ -68,6 +68,8 @@ router.get('/updateDiary_browse', controllers.updateDiary_browse)
 
 router.get('/updateDiary_comment', controllers.updateDiary_comment)
 
+router.get('/Dynamic', controllers.Dynamic)
+
 router.get('/updateDiary_vote', controllers.updateDiary_vote)
 
 router.get('/getDiaryVote', controllers.getDiaryVote)

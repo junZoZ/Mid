@@ -8,7 +8,7 @@ const app = getApp()
 var Distance =  require('../../utils/calcDist.js')
 const mp3Recorder = wx.getRecorderManager()   
 const mp3RecoderOptions = {
-  duration: 10000,
+  duration: 50000,
   sampleRate: 44100,
   numberOfChannels: 1,
   encodeBitRate: 192000,
@@ -65,6 +65,11 @@ Page({
     speakerUrl: '/image/speaker0.png',
     speakerUrlPrefix: '/image/speaker',
     speakerUrlSuffix: '.png',
+    timeSatrt: 0,
+    timeEnd: 0,
+    timeVoice: 0,
+    voiceStaticImage:'/image/voice.png',
+    voiceImage: '/image/voice.png',
   },
   //转换形态
   switchInputType: function () {
@@ -73,7 +78,7 @@ Page({
     })
   },
   //语音放下和起来
-  touchdown: function () {
+  touchdown: function (e) {
     console.log("mp3Recorder.start with" + mp3RecoderOptions)
     var _this = this;
     this.speaking();
@@ -82,7 +87,7 @@ Page({
     })
     mp3Recorder.start(mp3RecoderOptions);
   }, 
-  touchup: function () {
+  touchup: function (e) {
     console.log("mp3Recorder.stop")
     this.setData({
       isSpeaking: false,
@@ -97,9 +102,9 @@ Page({
     var i = 0;
     that.speakerInterval = setInterval(function () {
       i++;
-      i = i % 7;
+      var s = i % 7;
       that.setData({
-        speakerUrl: that.data.speakerUrlPrefix + i + that.data.speakerUrlSuffix,
+        speakerUrl: that.data.speakerUrlPrefix + s + that.data.speakerUrlSuffix,
       });
      // console.log("[Console log]:Speaker image changing...");
     }, 500);
@@ -107,37 +112,65 @@ Page({
 
   //播放录音
   Sound: function (e) {
+    var that = this
     myaudio.stop(); 
     var filePath = e.currentTarget.dataset.key; 
-    console.log(filePath)
+    var datatime = e.currentTarget.dataset.time; 
+
+    //修改当前状态
+    wx.request({
+      url: config.service.Dynamic,
+      data: {
+        voiceFilePath: filePath,
+        dynamic: '1',
+      },
+      header: { 'content-type': 'application/json' },
+      success: function (result) {
+        that.onShow();
+      }
+    })
     wx.downloadFile({
       url: filePath, 
       success: function (res) {
         console.log(res.tempFilePath)
         myaudio.src = res.tempFilePath
         myaudio.play(); 
-        console.log('time1:' + myaudio.duration)
+        //console.log('time1:' + myaudio.duration)
         wx.showToast({
           title: '播放结束',
           icon: 'success',
-          duration: myaudio.duration+500
+          duration: datatime*1000+500
         })
           },
         })
-    //this.playing();
-    this.setData({
-        voiceImage: "/image/voice.png",})
+    this.playing();
+    //修改当前状态
+    setTimeout(function () {
+      wx.request({
+        url: config.service.Dynamic,
+        data: {
+          voiceFilePath: filePath,
+          dynamic: '0',
+        },
+        header: { 'content-type': 'application/json' },
+        success: function (result) {
+          that.onPullDownRefresh();
+        }
+      })
+    }, datatime*1000 + 300) //延迟时间
+
     },
 
   playing: function () {
     //播放帧动画 
+    voiceImage: "/image/voice1"
     var that = this;
-    var i = 0;
+    var i = 4;
     that.speakerInterval = setInterval(function () {
       i++;
-      i = i % 3 + 1;
+      var s = i % 3 + 1;
       that.setData({
-        voiceImage: "/image/voice" + i + that.data.speakerUrlSuffix,
+        voiceImage: "/image/voice" + s + that.data.speakerUrlSuffix,
       });
     }, 500);
   },
@@ -276,13 +309,20 @@ Page({
   onLoad: function (options) {
     //onLoad中为录音接口注册两个回调函数，主要是onStop，拿到录音mp3文件的文件名（不用在意文件后辍是.dat还是.mp3，后辍不决定音频格式）
     mp3Recorder.onStart(() => {
+      this.data.timeSatrt = Date.parse(new Date()) 
       console.log('mp3Recorder.onStart()...')
     })
     mp3Recorder.onStop((res) => {
+      this.data.timeEnd = Date.parse(new Date());  
+      this.data.timeVoice = this.data.timeEnd - this.data.timeSatrt 
+      this.data.timeVoice = this.data.timeVoice / 1000
       console.log('mp3Recorder.onStop() ' + res)
       const { tempFilePath } = res
     //  console.log('time:' + myaudio.src)
       console.log('mp3Recorder.onStop() tempFilePath:' + tempFilePath)
+
+     var timeVoice = this.data.timeVoice
+     console.log("time----" + timeVoice)
       // 1.先上传语音
       wx.uploadFile({
         url: config.service.uploadUrl,
@@ -292,9 +332,6 @@ Page({
           //util.showSuccess('上传语音成功')
           //2.进一步上传其他信息
           var res = JSON.parse(res.data)
-          myaudio.src = tempFilePath
-          var vt=myaudio.duration
-          console.log('time:' + vt)
           wx.getLocation({
             type: 'gcj02',
             success: function (res1) {
@@ -305,6 +342,7 @@ Page({
                   content: "voice",
                   voiceUrl: res.data.imgUrl,
                   latitude: res1.latitude,
+                  voiceTime: timeVoice,
                   longitude: res1.longitude,
                   open_id: app.globalData.userInfo.openId
                 },
