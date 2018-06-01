@@ -48,9 +48,9 @@ Page({
 
           success: function (res) {
             util.showSuccess('上传图片成功')
-            console.log(res)
+            
             res = JSON.parse(res.data)
-            console.log(res)
+            
             that.setData({
               imgUrl: res.data.imgUrl
             })
@@ -277,8 +277,6 @@ Page({
     var diary_abs = '';
     var diary_imgUrl = '';
 
-    console.log("this.data.viewList.length")
-    console.log(this.data.viewList[0].value)
     var dn_type_list = new Array(this.data.viewList.length);
     var dn_value_list = new Array(this.data.viewList.length);
 
@@ -292,9 +290,8 @@ Page({
         diary_abs = this.data.viewList[i].value;
       }
     }
-
+    
     var that = this;
-
     //创建游记
     wx.request({
       url: config.service.addDiaryUrl,
@@ -306,19 +303,18 @@ Page({
       },
       header: { 'content-type': 'application/json' },
       success: function (res) {
-        console.log("111111111111111111")
-        console.log(res.data[0])
+        console.log(res)
         //创建游记节点
         wx.request({
           url: config.service.addDiaryNodeListUrl,
           data: {
             dn_type: dn_type_list,
             dn_value: dn_value_list,
-            diary_id: res.data[1]
+            diary_id: res.data[0]
           },
           header: { 'content-type': 'application/json' },
           success: function (res) {
-            console.log("2222222222222222222222222222222")
+            console.log(res)
             wx.switchTab({
               url: '../diary/diary',
             })
@@ -416,7 +412,6 @@ Page({
             paths: path,
             success: function (data) {
               static_map = data.url,
-                console.log(data.url)
 
               newView = newView.concat({
                 is_photo: true,
@@ -442,8 +437,6 @@ Page({
               })
             }
           }
-          console.log("newView.length")
-          console.log(newView.length)
           that.setData({
             viewList: newView
           })
