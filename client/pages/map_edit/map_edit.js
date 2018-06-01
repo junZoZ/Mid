@@ -134,7 +134,7 @@ Page({
     //console.log(app.globalData.userInfo)
 
     var that = this
-
+    var len = 0
     //先获取情感分析数据再上传
     wx.request({
       url: 'https://aip.baidubce.com/rpc/2.0/nlp/v1/sentiment_classify?charset=UTF-8&access_token=24.aefb38332020af2e1833f78e0f67366e.2592000.1530270870.282335-11308922',
@@ -153,6 +153,37 @@ Page({
             positive: res.data.items[0].positive_prob,
             sentiment: res.data.items[0].sentiment
           });
+          //进行文本审核
+          wx.request({
+            url: 'https://aip.baidubce.com/rest/2.0/antispam/v2/spam?access_token=24.9e9c0df9b7734996877952975350a034.2592000.1530434927.282335-11325844',
+            data: {
+              "content": that.data.textvalue
+            },
+
+            method: "POST",
+            header: {
+              'content-type': 'application/x-www-form-urlencoded' // 默认值
+            },
+            success: function (res) {
+              console.log('----')
+              console.log(res.data)
+              for (var i in res.data.result.pass)
+              {
+                len++;
+              }
+              console.log(len)
+            }
+          });
+          if(len<5)
+          {
+          wx.showToast({
+            title: '文本有敏感词汇,请重新输入',
+  icon: 'none',
+  duration: 2000
+})
+          }
+          else
+          {
           //若选择了图片
           if (that.data.image_choosen) {
             // 1.先上传图片
@@ -300,6 +331,7 @@ Page({
             }
           }
           wx.navigateBack({})
+          }
         }
       },
       fail: function (res) {
