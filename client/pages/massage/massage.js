@@ -126,24 +126,26 @@ Page({
       },
       header: { 'content-type': 'application/json' },
       success: function (result) {
-        that.onShow();
+        that.getInfo()
       }
     })
     wx.downloadFile({
       url: filePath, 
       success: function (res) {
-        console.log(res.tempFilePath)
+        console.log('time1:  '+datatime)
         myaudio.src = res.tempFilePath
         myaudio.play(); 
         //console.log('time1:' + myaudio.duration)
-        wx.showToast({
-          title: '播放结束',
-          icon: 'success',
-          duration: datatime*1000+500
-        })
+        that.playing();
+
+        setTimeout(function () {
+          wx.showToast({
+            title: '播放结束',
+            icon: 'success',
+          })
+        }, datatime * 1000 ) //延迟时间
           },
         })
-    this.playing();
     //修改当前状态
     setTimeout(function () {
       wx.request({
@@ -154,10 +156,11 @@ Page({
         },
         header: { 'content-type': 'application/json' },
         success: function (result) {
-          that.onPullDownRefresh();
+          that.getInfo()
         }
       })
-    }, datatime*1000 + 300) //延迟时间
+     
+    }, datatime*1000 + 100) //延迟时间
 
     },
 
@@ -172,7 +175,7 @@ Page({
       that.setData({
         voiceImage: "/image/voice" + s + that.data.speakerUrlSuffix,
       });
-    }, 500);
+    }, 600);
   },
 
   //作用：发送消息
@@ -307,6 +310,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
     //onLoad中为录音接口注册两个回调函数，主要是onStop，拿到录音mp3文件的文件名（不用在意文件后辍是.dat还是.mp3，后辍不决定音频格式）
     mp3Recorder.onStart(() => {
       this.data.timeSatrt = Date.parse(new Date()) 
@@ -365,11 +369,17 @@ Page({
       })     //upload
     })
     //..................
-    var that = this;
 
+    this.getInfo()
+
+  },
+
+//刷新信息
+  getInfo: function () {
+    var that = this;
     wx.getLocation({
       type: 'gcj02',
-      success: function(res_location) {
+      success: function (res_location) {
         wx.request({
           url: config.service.getmessageUrl,
           data: {
@@ -405,7 +415,7 @@ Page({
             }
 
             that.setData({
-              p_latitude:res_location.latitude,
+              p_latitude: res_location.latitude,
               p_longitude: res_location.longitude,
               message: mymessage,
               reply: myreply,
@@ -417,12 +427,11 @@ Page({
             console.log(that.data.reply)
             console.log(that.data.user_info)
           } //request success
-         
+
         }) //wx.request
 
       } //getlocation success
     })  //wx.getLocation
-
   },
 
   /**
