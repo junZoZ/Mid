@@ -389,7 +389,7 @@ Page({
               //address_longitude.push(that.data.thoughtList[i].thought_longitude)
               lo = that.data.thoughtList[i].thought_longitude
               la = that.data.thoughtList[i].thought_latitude
-              if (i == that.data.thoughtList.length / 2) {
+              if (i == 0) {
                 loc = lo + ',' + la
               }
               public_part = public_part + lo + "," + la
